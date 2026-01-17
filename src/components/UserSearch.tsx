@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FaGithubAlt } from "react-icons/fa";
+import { fetchGithubUsers } from "../api/github";
+import UserCard from "./UserCard";
 
 interface UserSearchProps {
   searchUsers: (text: string) => void;
@@ -14,17 +15,7 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
  const {data, isLoading, isError,error} = useQuery(
   {
     queryKey: ['users', submitUsername],
-    queryFn: async () => {
-      if (!submitUsername) return null;
-      const response = await fetch(`${import.meta.env.VITE_GITHUB_API_URL}/users/${submitUsername}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-      }
-      const data = await response.json();
-      console.log(data);
-      return data;
-    },
+    queryFn: () => fetchGithubUsers(submitUsername),
     enabled: !!submitUsername
   }
  )
@@ -49,20 +40,7 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error: {error.message}</div>}
       
-      {data && (
-        <div className="user-profile">
-          <img src={data.avatar_url} alt={data.login} style={{width: '100px', borderRadius: '50%'}} />
-          <h3>{data.login}</h3>
-          <p>{data.bio}</p>
-          <a 
-          href={data.html_url}
-          className="profile-btn"
-          target="_blank" 
-          rel="noopener noreferrer">
-            <FaGithubAlt />View Profile
-            </a>
-        </div>
-      )}
+      {data && <UserCard user={data} />}
     </div>
   );
 };
