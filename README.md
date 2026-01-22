@@ -2,7 +2,7 @@
 
 A beautifully designed, responsive GitHub user search application built with React, TypeScript, and modern web technologies. Discover GitHub users with an elegant interface that provides detailed profiles, smart suggestions, and smooth animations.
 
-![GitHub Finder Preview](https://via.placeholder.com/800x450/0077ff/ffffff?text=GitHub+Finder+Preview)
+![GitHub Finder Preview](public/githubfinder.png)
 
 ## ✨ Features
 
@@ -33,7 +33,7 @@ A beautifully designed, responsive GitHub user search application built with Rea
 
 ## 🚀 Live Demo
 
-[View Live Demo](#) *(Add your deployment link here)*
+[View Live Demo](https://github-finder-swart-five.vercel.app/)
 
 ## 📸 Screenshots
 
