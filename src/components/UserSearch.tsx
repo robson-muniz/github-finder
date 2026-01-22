@@ -5,6 +5,7 @@ import UserCard from "./UserCard";
 import RecentSearches from "./RecentSearches";
 import { useDebounce } from "../hooks/useDebounce";
 import type { GithubUser } from "../types";
+import SuggestionDropDown from "./SuggestionDropDown";
 
 interface UserSearchProps {
   searchUsers: (text: string) => void;
@@ -68,25 +69,25 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
           />
 
           {showSuggestions && suggestions && suggestions.length > 0 && (
-            <ul className="suggestions">
-              {suggestions.slice(0, 5).map((user) => (
-                <li key={user.login}
-                  onClick={() => {
-                    setUsername(user.login);
-                    setShowSuggestions(false);
+            <SuggestionDropDown
+              suggestions={suggestions}
+              show={showSuggestions}
+              onSelect={(selected) => {
+                setUsername(selected);
+                setShowSuggestions(false);
 
-                    if (submitUsername !== user.login) {
-                      setSubmitUsername(user.login);
-                    } else {
-                      refetch();
-                    }
-                  }}
-                >
-                  <img src={user.avatar_url} alt={user.login} className="avatar-xs" />
-                  {user.login}
-                </li>
-              ))}
-            </ul>
+                if (submitUsername !== selected) {
+                  setSubmitUsername(selected);
+                } else {
+                  refetch();
+                }
+
+                setRecentUsers((prev) => {
+                  const updated = [selected, ...prev.filter((user) => user !== selected)];
+                  return updated.slice(0, 5);
+                });
+              }}
+            />
           )}
         </div>
 
