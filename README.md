@@ -2,7 +2,8 @@
 
 A beautifully designed, responsive GitHub user search application built with React, TypeScript, and modern web technologies. Discover GitHub users with an elegant interface that provides detailed profiles, smart suggestions, and smooth animations.
 
-![GitHub Finder Preview](https://via.placeholder.com/800x450/0077ff/ffffff?text=GitHub+Finder+Preview)
+![GitHub Finder Preview<img width="888" height="950" alt="Screenshot_2026-01-22_14-15-44" src="https://github.com/user-attachments/assets/9a04ab79-d2dd-46c1-bece-d007b0f7a20b" />
+]()
 
 ## ✨ Features
 
