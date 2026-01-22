@@ -2,12 +2,7 @@
 
 A beautifully designed, responsive GitHub user search application built with React, TypeScript, and modern web technologies. Discover GitHub users with an elegant interface that provides detailed profiles, smart suggestions, and smooth animations.
 
-<<<<<<< HEAD
 ![GitHub Finder Preview](public/githubfinder.png)
-=======
-![GitHub Finder Preview<img width="888" height="950" alt="Screenshot_2026-01-22_14-15-44" src="https://github.com/user-attachments/assets/9a04ab79-d2dd-46c1-bece-d007b0f7a20b" />
-]()
->>>>>>> bf6922a023a38ca0d8a6c19d58b0271e33e40f05
 
 ## ✨ Features
 
@@ -40,13 +35,6 @@ A beautifully designed, responsive GitHub user search application built with Rea
 
 [View Live Demo](https://github-finder-swart-five.vercel.app/)
 
-## 📸 Screenshots
-
-### Desktop View
-![Desktop View](https://via.placeholder.com/600x400/ffffff/000000?text=Desktop+Preview)
-
-### Mobile View
-![Mobile View](https://via.placeholder.com/300x500/ffffff/000000?text=Mobile+Preview)
 
 ## 🛠️ Tech Stack
 
@@ -274,20 +262,20 @@ MIT License - see [LICENSE](LICENSE) file for details.
 📍 Based in Portugal  
 💻 Made with ❤️ and a lot of ☕  
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/yourprofile)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/robson-muniz)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/robsonmuniz/)
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/robsonmunizdev)
 
 ---
 
 ⭐ **If you found this project helpful, please give it a star!** ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/github-finder?style=social)](https://github.com/yourusername/github-finder/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/github-finder?style=social)](https://github.com/yourusername/github-finder/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/robson-muniz/github-finder?style=social)](https://github.com/robson-muniz/github-finder/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/robson-muniz/github-finder?style=social)](https://github.com/robson-muniz/github-finder/network/members)
 
 ---
 
-**Want to see more projects?** Check out my [GitHub profile](https://github.com/yourusername) for other interesting projects and contributions!
+**Want to see more projects?** Check out my [GitHub profile](https://github.com/robson-muniz) for other interesting projects and contributions!
 
 ## 🐛 Known Issues & TODOs
 
@@ -298,4 +286,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [ ] Implement i18n for multiple languages
 - [ ] Add share functionality for user profiles
 
-*Found a bug?* [Open an issue](https://github.com/yourusername/github-finder/issues)
+*Found a bug?* [Open an issue](https://github.com/robso-nmuniz/github-finder/issues)
