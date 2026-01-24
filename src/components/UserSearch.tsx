@@ -12,30 +12,40 @@ import SuggestionDropDown from "./SuggestionDropDown";
 import { FaSearch, FaExclamationTriangle } from "react-icons/fa";
 
 interface UserSearchProps {
+  // Callback (optional in current implementation but good for lifting state if needed)
   searchUsers: (text: string) => void;
 }
 
 const UserSearch = ({ searchUsers }: UserSearchProps) => {
+  // State for the input field value
   const [username, setUsername] = useState('');
+  // State for the value actively being searched (triggers the main query)
+  // We separate this from 'username' to avoid triggering a full fetch on every keystroke
   const [submitUsername, setSubmitUsername] = useState('');
+
+  // Persist recent searches in local storage
   const [recentUsers, setRecentUsers] = useState<string[]>(() => {
     const stored = localStorage.getItem('recentUsers');
     return stored ? JSON.parse(stored) : [];
   });
 
+  // Debounce the input to avoid hitting the search suggestions API too frequently
   const [debouncedUsername] = useDebounce(username, 300);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  // Main query: Fetches full user details when 'submitUsername' changes
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', submitUsername],
     queryFn: () => fetchGithubUsers(submitUsername),
-    enabled: !!submitUsername
+    enabled: !!submitUsername, // Only run query if we have a username to submit
+    retry: false, // Don't retry on 404s immediately
   });
 
+  // Suggestions query: Fetches list of users as you type (debounced)
   const { data: suggestions } = useQuery({
     queryKey: ['github-users-sugestions', debouncedUsername],
     queryFn: () => searchGithubUsers(debouncedUsername),
-    enabled: debouncedUsername.length > 1
+    enabled: debouncedUsername.length > 1 // Only search if we have meaningful input
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -43,15 +53,19 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
     const trimmed = username.trim();
     if (!trimmed) return;
 
+    // Trigger the main search
     setSubmitUsername(trimmed);
-    searchUsers('');
+    searchUsers(''); // Notify parent if needed
 
+    // Update recent searches logic: FIFO (First In First Out) queue of size 5
+    // Also moves duplicate searches to the top
     setRecentUsers((prev) => {
       const updated = [trimmed, ...prev.filter((user) => user !== trimmed)];
       return updated.slice(0, 5);
     });
   };
 
+  // Sync recent users with localStorage whenever the state changes
   useEffect(() => {
     localStorage.setItem('recentUsers', JSON.stringify(recentUsers));
   }, [recentUsers]);
@@ -80,15 +94,18 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
                 suggestions={suggestions}
                 show={showSuggestions}
                 onSelect={(selected) => {
+                  // User selected a suggestion
                   setUsername(selected);
                   setShowSuggestions(false);
 
+                  // If selecting a different user, trigger new search; otherwise just refetch
                   if (submitUsername !== selected) {
                     setSubmitUsername(selected);
                   } else {
                     refetch();
                   }
 
+                  // Update recent history immediately on selection
                   setRecentUsers((prev) => {
                     const updated = [selected, ...prev.filter((user) => user !== selected)];
                     return updated.slice(0, 5);

@@ -1,8 +1,45 @@
-import { FaGithubAlt, FaUsers, FaCode, FaStar, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import { FaGithubAlt, FaUsers, FaCode, FaStar, FaMapMarkerAlt, FaCalendarAlt, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 import type { GithubUser } from "../types";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { checkIfFollowingUser, followUser, unfollowUser } from "../api/github";
 
 const UserCard = ({ user }: { user: GithubUser }) => {
+
+  const { data: isFollowing } = useQuery({
+    queryKey: ["follow-status", user.login],
+    queryFn: () => checkIfFollowingUser(user.login),
+    enabled: !!user.login,
+  })
+
+  const queryClient = useQueryClient();
+
+  const followMutation = useMutation({
+    mutationFn: () => followUser(user.login),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["follow-status", user.login] });
+      // Optionally invalidate user data if follower count needs update, but that might be overkill/rate-limited
+    },
+  });
+
+  const unfollowMutation = useMutation({
+    mutationFn: () => unfollowUser(user.login),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["follow-status", user.login] });
+    },
+  });
+
+  const handleFollowToggle = () => {
+    if (isFollowing) {
+      unfollowMutation.mutate();
+    } else {
+      followMutation.mutate();
+    }
+  };
+
+
+
+  // Helper to format ISO dates to a more readable US format (e.g., Dec 25, 2023)
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -65,16 +102,32 @@ const UserCard = ({ user }: { user: GithubUser }) => {
         </div>
       </div>
 
-      <motion.a
-        href={user.html_url}
-        className="profile-btn"
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <FaGithubAlt /> View Profile on GitHub
-      </motion.a>
+      <div className="user-card-buttons">
+        <button
+          className={`follow-btn ${isFollowing ? 'following' : ''}`}
+          onClick={handleFollowToggle}
+          disabled={followMutation.isPending || unfollowMutation.isPending}
+        >
+          {isFollowing ? (
+            <>
+              <FaUserMinus className="follow-icon" /> Following
+            </>
+          ) : (
+            <>
+              <FaUserPlus className="follow-icon" /> Follow User
+            </>
+          )}
+        </button>
+
+        <a
+          href={user.html_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="profile-btn"
+        >
+          <FaGithubAlt /> View Profile on GitHub
+        </a>
+      </div>
     </motion.div>
   );
 };

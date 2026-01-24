@@ -12,20 +12,21 @@ const SuggestionDropDown = ({ suggestions, show, onSelect }: SuggestionDropDownP
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
-  // Handle keyboard navigation
+  // Handle keyboard navigation (Accessibility)
+  // Allows users to use Arrow keys + Enter to select a suggestion
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!show || !suggestions || suggestions.length === 0) return;
 
       switch (e.key) {
         case 'ArrowDown':
-          e.preventDefault();
+          e.preventDefault(); // Prevent page scroll
           setSelectedIndex(prev =>
             prev < Math.min(suggestions.length - 1, 4) ? prev + 1 : 0
           );
           break;
         case 'ArrowUp':
-          e.preventDefault();
+          e.preventDefault(); // Prevent page scroll
           setSelectedIndex(prev =>
             prev > 0 ? prev - 1 : Math.min(suggestions.length - 1, 4)
           );
@@ -46,7 +47,8 @@ const SuggestionDropDown = ({ suggestions, show, onSelect }: SuggestionDropDownP
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [show, suggestions, onSelect, selectedIndex]);
 
-  // Auto-scroll to selected item
+  // Auto-scroll the focused item into view
+  // Ensures the keyboard-selected item is always visible within the dropdown
   useEffect(() => {
     if (dropdownRef.current && selectedIndex >= 0) {
       const items = dropdownRef.current.children;
