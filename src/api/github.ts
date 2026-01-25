@@ -14,7 +14,6 @@ export const fetchGithubUsers = async (username: string) => {
   }
   const data = await response.json();
   return data;
-
 }
 
 /**
