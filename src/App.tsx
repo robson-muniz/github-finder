@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Toaster } from 'sonner';
 import UserSearch from './components/UserSearch';
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
           </p>
         </div>
       </motion.footer>
+      <Toaster position="top-right" richColors />
     </div>
   );
 };

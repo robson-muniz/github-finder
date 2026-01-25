@@ -1,4 +1,5 @@
 import { FaGithubAlt, FaUsers, FaCode, FaStar, FaMapMarkerAlt, FaCalendarAlt, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import { toast } from "sonner";
 import { motion } from "framer-motion";
 import type { GithubUser } from "../types";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,7 +19,7 @@ const UserCard = ({ user }: { user: GithubUser }) => {
     mutationFn: () => followUser(user.login),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["follow-status", user.login] });
-      // Optionally invalidate user data if follower count needs update, but that might be overkill/rate-limited
+      toast.success(`You are now following ${user.login}`);
     },
   });
 
@@ -26,6 +27,7 @@ const UserCard = ({ user }: { user: GithubUser }) => {
     mutationFn: () => unfollowUser(user.login),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["follow-status", user.login] });
+      toast.success(`You have unfollowed ${user.login}`);
     },
   });
 

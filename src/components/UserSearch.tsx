@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchGithubUsers, searchGithubUsers } from "../api/github";
@@ -69,6 +70,14 @@ const UserSearch = ({ searchUsers }: UserSearchProps) => {
   useEffect(() => {
     localStorage.setItem('recentUsers', JSON.stringify(recentUsers));
   }, [recentUsers]);
+
+
+  // Toast notifications for search results
+  useEffect(() => {
+    if (isError && error) {
+      toast.error((error as Error).message);
+    }
+  }, [isError, error]);
 
   return (
     <div className="user-search-container">
